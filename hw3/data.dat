@@ -1,0 +1,53 @@
+/*********************************************
+ * OPL 12.6.3.0 Data
+ * Author: lentz
+ * Creation Date: May 26, 1999 at 14:26:54 Z+0500
+ *********************************************/
+
+ Workers = {KC DH HB SC KS NK};// set of workers
+ Days = {MON TUE WED THU FRI};// set of days
+ 
+ wageRates = #[
+ KC:25
+DH:26
+HB:24
+SC:23
+KS:28
+NK:30
+]#;
+ minHours  = #[
+ KC:8
+DH:8
+HB:8
+SC:8
+KS:7
+NK:7
+]#;
+ hoursOpen = #[
+MON:14
+TUE:14
+WED:14
+THU:14
+FRI:14
+]#;
+ 
+ WorkAssigns = {
+ <KC,MON,6>
+<KC,WED,6>
+<KC,FRI,6>
+<DH,TUE,6>
+<DH,THU,6>
+<HB,MON,4>
+<HB,TUE,8>
+<HB,WED,4>
+<HB,FRI,4>
+<SC,MON,5>
+<SC,TUE,5>
+<SC,WED,5>
+<SC,FRI,5>
+<KS,MON,3>
+<KS,WED,3>
+<KS,THU,8>
+<NK,THU,6>
+<NK,FRI,2>
+};

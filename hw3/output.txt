@@ -1,0 +1,19 @@
+// solution (optimal) with objective 1755
+ <"KC" "MON">3
+ <"KC" "WED">2
+ <"KC" "FRI">4
+ <"DH" "TUE">2
+ <"DH" "THU">6
+ <"HB" "MON">4
+ <"HB" "TUE">7
+ <"HB" "WED">4
+ <"HB" "FRI">4
+ <"SC" "MON">5
+ <"SC" "TUE">5
+ <"SC" "WED">5
+ <"SC" "FRI">5
+ <"KS" "MON">2
+ <"KS" "WED">3
+ <"KS" "THU">2
+ <"NK" "THU">6
+ <"NK" "FRI">1

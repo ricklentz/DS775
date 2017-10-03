@@ -1,0 +1,512 @@
+cat('Capacity = 625;\n\n', file = filename, append = T)
+# write TableRoutes, set of tuples
+cat('TableRoutes = {\n', file = filename, append = T)
+numRoutes <- dim(dfTableRoutes)[1]
+for (j in 1:numRoutes){
+cat(' < ', file = filename, append = T)
+write.table( dfTableRoutes[j,], file = filename, append = T, quote = F, sep = ', ',
+row.names = F, col.names = F, eol = ' >;\n' )
+}
+cat('};\n\n', file = filename, append = T)
+# write suppliers and quantities
+cat('Supply = #[\n', file = filename, append = T)
+numSuppliers <- dim(dfSupply)[1]
+for (j in 1:numSuppliers){
+cat(' <', dfSupply[j,1],',',dfSupply[j,2],'>: ',dfSupply[j,3],'\n', file = filename, append = T )
+}
+cat(']#;\n\n', file = filename, append = T )
+# write customers and quantities
+cat('Demand = #[\n', file = filename, append = T)
+numCustomers <- dim(dfDemand)[1]
+for (j in 1:numCustomers){
+cat(' <', dfDemand[j,1],',',dfDemand[j,2],'>: ',dfDemand[j,3],'\n', file = filename, append = T )
+}
+cat(']#;\n\n', file = filename, append = T )
+close(con) # close connection to file
+debugSource('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpWrite.R')
+varName
+debugSource('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpWrite.R')
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpWrite.R')
+exit
+quit
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpWrite.R')
+require('XLConnect')  # install if necessary
+# also install XLConnectJars if not installed as dependency
+ws <- 'transpStoreSheet.xlsx'
+# read dataframes from Excel spreadsheet
+# you'll have to change the sheets and regions
+dfFactories <- readWorksheetFromFile(ws,sheet=1,region='A1:A5')
+setwd("~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download")
+dfFactories <- readWorksheetFromFile(ws,sheet=1,region='A1:A5')
+dfWarehouses <- readWorksheetFromFile(ws,sheet=1,region='B1:B4')
+dfStores <- readWorksheetFromFile(ws,sheet=1,region='C1:C6')
+dfProducts <- readWorksheetFromFile(ws,sheet=1,region='D1:D3')
+dfTableRoutesFW <- readWorksheetFromFile(ws,sheet=1,region='F2:I26')
+dfTableRoutesWS <- readWorksheetFromFile(ws,sheet=1,region='K2:N20')
+dfStores
+df <- dataframe(x=c(1,2,3),y=c(3,4,5))
+df <- data.frame(x=c(1,2,3),y=c(3,4,5))
+df
+df[1,]
+df[1,1]
+require('XLConnect')  # install if necessary
+# also install XLConnectJars if not installed as dependency
+ws <- 'transpStoreSheet.xlsx'
+# read dataframes from Excel spreadsheet
+# you'll have to change the sheets and regions
+dfFactories <- readWorksheetFromFile(ws,sheet=1,region='A1:A5')
+dfWarehouses <- readWorksheetFromFile(ws,sheet=1,region='B1:B4')
+dfStores <- readWorksheetFromFile(ws,sheet=1,region='C1:C6')
+dfProducts <- readWorksheetFromFile(ws,sheet=1,region='D1:D3')
+dfTableRoutesFW <- readWorksheetFromFile(ws,sheet=1,region='F2:I26')
+dfTableRoutesWS <- readWorksheetFromFile(ws,sheet=1,region='K2:N20')
+dfSupply <- readWorksheetFromFile(ws,sheet=1,region='P2:R10')
+dfDemand <- readWorksheetFromFile(ws,sheet=1,region='T2:V12')
+dfCapacityFW <- readWorksheetFromFile(ws,sheet=1,region='A9:A10')
+dfCapacityWS <- readWorksheetFromFile(ws,sheet=1,region='A12:A13')
+dfMaxStorage <- readWorksheetFromFile(ws,sheet=1,region='A15:A16')
+# change to your directory
+setwd('~//Users/jbaggett/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04')
+filename <- 'transpStore.dat'
+cat('//--------------------------------------------------\n',file=filename)
+con <- file(filename) # get connection to file to close later
+cat('// transportation file produced by reading \n',file=filename,append=T)
+cat('// excel file into R using XLConnect \n',file=filename,append=T)
+cat('// and using R commands to output textfile \n',file=filename,append=T)
+cat('//--------------------------------------------------\n\n',file=filename,append=T)
+writeSet <- function( varName, df, filename ){
+cat( varName, file = filename, append = T )
+cat( ' = { ', file = filename, append = T )
+numRows <- dim(df)[1]
+for (j in 1:numRows){
+cat( df[j,1], file = filename, append = T )
+cat( ' ', file = filename, append = T )
+}
+cat('};\n', file = filename, append = T )
+}
+writeNumber <- function( varName, x, filename ){
+cat( varName, file = filename, append = T)
+cat( ' = ', file = filename, append = T)
+cat( x, file = filename, append = T)
+cat( ';', file = filename, append = T)
+}
+writeSet( 'Factories', dfFactories, filename)
+writeSet( 'Warehouses', dfWarehouses, filename)
+writeSet( 'Stores', dfStores, filename)
+writeSet( 'Products', dfProducts, filename)
+writeNumber( 'CapacityFW', dfCapacityFW[1,1],filename)
+require('XLConnect')  # install if necessary
+# also install XLConnectJars if not installed as dependency
+ws <- 'transpStoreSheet.xlsx'
+# read dataframes from Excel spreadsheet
+# you'll have to change the sheets and regions
+dfFactories <- readWorksheetFromFile(ws,sheet=1,region='A1:A5')
+dfWarehouses <- readWorksheetFromFile(ws,sheet=1,region='B1:B4')
+dfStores <- readWorksheetFromFile(ws,sheet=1,region='C1:C6')
+dfProducts <- readWorksheetFromFile(ws,sheet=1,region='D1:D3')
+dfTableRoutesFW <- readWorksheetFromFile(ws,sheet=1,region='F2:I26')
+dfTableRoutesWS <- readWorksheetFromFile(ws,sheet=1,region='K2:N20')
+dfSupply <- readWorksheetFromFile(ws,sheet=1,region='P2:R10')
+dfDemand <- readWorksheetFromFile(ws,sheet=1,region='T2:V12')
+dfCapacityFW <- readWorksheetFromFile(ws,sheet=1,region='A9:A10')
+dfCapacityWS <- readWorksheetFromFile(ws,sheet=1,region='A12:A13')
+dfMaxStorage <- readWorksheetFromFile(ws,sheet=1,region='A15:A16')
+# change to your directory
+setwd('~//Users/jbaggett/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04')
+filename <- 'transpStore.dat'
+cat('//--------------------------------------------------\n',file=filename)
+con <- file(filename) # get connection to file to close later
+cat('// transportation file produced by reading \n',file=filename,append=T)
+cat('// excel file into R using XLConnect \n',file=filename,append=T)
+cat('// and using R commands to output textfile \n',file=filename,append=T)
+cat('//--------------------------------------------------\n\n',file=filename,append=T)
+writeSet <- function( varName, df, filename ){
+cat( varName, file = filename, append = T )
+cat( ' = { ', file = filename, append = T )
+numRows <- dim(df)[1]
+for (j in 1:numRows){
+cat( df[j,1], file = filename, append = T )
+cat( ' ', file = filename, append = T )
+}
+cat('};\n', file = filename, append = T )
+}
+writeNumber <- function( varName, x, filename ){
+cat( varName, file = filename, append = T)
+cat( ' = ', file = filename, append = T)
+cat( x, file = filename, append = T)
+cat( ';', file = filename, append = T)
+}
+writeSet( 'Factories', dfFactories, filename)
+writeSet( 'Warehouses', dfWarehouses, filename)
+writeSet( 'Stores', dfStores, filename)
+writeSet( 'Products', dfProducts, filename)
+writeNumber( 'CapacityFW', dfCapacityFW[1,1],filename)
+writeNumber( 'CapacityWS', dfCapacityWS[1,1],filename)
+writeNumber( 'MaxStorage', dfMaxStorage[1,1],filename)
+writeTuplesTable <- function( varName, df, filename){
+cat( varname, file = filename, append = T)
+cat( ' = {\n', file = filename, append = T)
+numRows <- dim( df )[1]
+for (j in 1:numRows){
+cat(' < ', file = filename, append = T)
+write.table( df[j,], file = filename, append = T, quote = F, sep = ', ',
+row.names = F, col.names = F, eol = ' >;\n' )
+}
+cat('};\n\n', file = filename, append = T)
+}
+}
+writeTuplesTable( TableRoutesFW, dfTableRoutesFW, filename)
+require('XLConnect')  # install if necessary
+# also install XLConnectJars if not installed as dependency
+ws <- 'transpStoreSheet.xlsx'
+# read dataframes from Excel spreadsheet
+# you'll have to change the sheets and regions
+dfFactories <- readWorksheetFromFile(ws,sheet=1,region='A1:A5')
+dfWarehouses <- readWorksheetFromFile(ws,sheet=1,region='B1:B4')
+dfStores <- readWorksheetFromFile(ws,sheet=1,region='C1:C6')
+dfProducts <- readWorksheetFromFile(ws,sheet=1,region='D1:D3')
+dfTableRoutesFW <- readWorksheetFromFile(ws,sheet=1,region='F2:I26')
+dfTableRoutesWS <- readWorksheetFromFile(ws,sheet=1,region='K2:N20')
+dfSupply <- readWorksheetFromFile(ws,sheet=1,region='P2:R10')
+dfDemand <- readWorksheetFromFile(ws,sheet=1,region='T2:V12')
+dfCapacityFW <- readWorksheetFromFile(ws,sheet=1,region='A9:A10')
+dfCapacityWS <- readWorksheetFromFile(ws,sheet=1,region='A12:A13')
+dfMaxStorage <- readWorksheetFromFile(ws,sheet=1,region='A15:A16')
+# change to your directory
+setwd('~//Users/jbaggett/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04')
+filename <- 'transpStore.dat'
+cat('//--------------------------------------------------\n',file=filename)
+con <- file(filename) # get connection to file to close later
+cat('// transportation file produced by reading \n',file=filename,append=T)
+cat('// excel file into R using XLConnect \n',file=filename,append=T)
+cat('// and using R commands to output textfile \n',file=filename,append=T)
+cat('//--------------------------------------------------\n\n',file=filename,append=T)
+writeSet <- function( varName, df, filename ){
+cat( varName, file = filename, append = T )
+cat( ' = { ', file = filename, append = T )
+numRows <- dim(df)[1]
+for (j in 1:numRows){
+cat( df[j,1], file = filename, append = T )
+cat( ' ', file = filename, append = T )
+}
+cat('};\n', file = filename, append = T )
+}
+writeNumber <- function( varName, x, filename ){
+cat( varName, file = filename, append = T)
+cat( ' = ', file = filename, append = T)
+cat( x, file = filename, append = T)
+cat( ';', file = filename, append = T)
+}
+writeSet( 'Factories', dfFactories, filename)
+writeSet( 'Warehouses', dfWarehouses, filename)
+writeSet( 'Stores', dfStores, filename)
+writeSet( 'Products', dfProducts, filename)
+writeNumber( 'CapacityFW', dfCapacityFW[1,1],filename)
+writeNumber( 'CapacityWS', dfCapacityWS[1,1],filename)
+writeNumber( 'MaxStorage', dfMaxStorage[1,1],filename)
+writeTuplesTable <- function( varName, df, filename){
+cat( varname, file = filename, append = T)
+cat( ' = {\n', file = filename, append = T)
+numRows <- dim( df )[1]
+for (j in 1:numRows){
+cat(' < ', file = filename, append = T)
+write.table( df[j,], file = filename, append = T, quote = F, sep = ', ',
+row.names = F, col.names = F, eol = ' >;\n' )
+}
+cat('};\n\n', file = filename, append = T)
+}
+writeTuplesTable( TableRoutesFW, dfTableRoutesFW, filename)
+require('XLConnect')  # install if necessary
+# also install XLConnectJars if not installed as dependency
+ws <- 'transpStoreSheet.xlsx'
+# read dataframes from Excel spreadsheet
+# you'll have to change the sheets and regions
+dfFactories <- readWorksheetFromFile(ws,sheet=1,region='A1:A5')
+dfWarehouses <- readWorksheetFromFile(ws,sheet=1,region='B1:B4')
+dfStores <- readWorksheetFromFile(ws,sheet=1,region='C1:C6')
+dfProducts <- readWorksheetFromFile(ws,sheet=1,region='D1:D3')
+dfTableRoutesFW <- readWorksheetFromFile(ws,sheet=1,region='F2:I26')
+dfTableRoutesWS <- readWorksheetFromFile(ws,sheet=1,region='K2:N20')
+dfSupply <- readWorksheetFromFile(ws,sheet=1,region='P2:R10')
+dfDemand <- readWorksheetFromFile(ws,sheet=1,region='T2:V12')
+dfCapacityFW <- readWorksheetFromFile(ws,sheet=1,region='A9:A10')
+dfCapacityWS <- readWorksheetFromFile(ws,sheet=1,region='A12:A13')
+dfMaxStorage <- readWorksheetFromFile(ws,sheet=1,region='A15:A16')
+# change to your directory
+setwd('~//Users/jbaggett/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04')
+filename <- 'transpStore.dat'
+cat('//--------------------------------------------------\n',file=filename)
+con <- file(filename) # get connection to file to close later
+cat('// transportation file produced by reading \n',file=filename,append=T)
+cat('// excel file into R using XLConnect \n',file=filename,append=T)
+cat('// and using R commands to output textfile \n',file=filename,append=T)
+cat('//--------------------------------------------------\n\n',file=filename,append=T)
+writeSet <- function( varName, df, filename ){
+cat( varName, file = filename, append = T )
+cat( ' = { ', file = filename, append = T )
+numRows <- dim(df)[1]
+for (j in 1:numRows){
+cat( df[j,1], file = filename, append = T )
+cat( ' ', file = filename, append = T )
+}
+cat('};\n', file = filename, append = T )
+}
+writeNumber <- function( varName, x, filename ){
+cat( varName, file = filename, append = T)
+cat( ' = ', file = filename, append = T)
+cat( x, file = filename, append = T)
+cat( ';', file = filename, append = T)
+}
+writeSet( 'Factories', dfFactories, filename)
+writeSet( 'Warehouses', dfWarehouses, filename)
+writeSet( 'Stores', dfStores, filename)
+writeSet( 'Products', dfProducts, filename)
+writeNumber( 'CapacityFW', dfCapacityFW[1,1],filename)
+writeNumber( 'CapacityWS', dfCapacityWS[1,1],filename)
+writeNumber( 'MaxStorage', dfMaxStorage[1,1],filename)
+writeTuplesTable <- function( varName, df, filename){
+cat( varName, file = filename, append = T)
+cat( ' = {\n', file = filename, append = T)
+numRows <- dim( df )[1]
+for (j in 1:numRows){
+cat(' < ', file = filename, append = T)
+write.table( df[j,], file = filename, append = T, quote = F, sep = ', ',
+row.names = F, col.names = F, eol = ' >;\n' )
+}
+cat('};\n\n', file = filename, append = T)
+}
+writeTuplesTable( TableRoutesFW, dfTableRoutesFW, filename)
+writeTuplesTable( TableRoutesFW, dfTableRoutesFW, filename)
+writeTuplesTable( 'TableRoutesFW', dfTableRoutesFW, filename)
+require('XLConnect')  # install if necessary
+# also install XLConnectJars if not installed as dependency
+ws <- 'transpStoreSheet.xlsx'
+# read dataframes from Excel spreadsheet
+# you'll have to change the sheets and regions
+dfFactories <- readWorksheetFromFile(ws,sheet=1,region='A1:A5')
+dfWarehouses <- readWorksheetFromFile(ws,sheet=1,region='B1:B4')
+dfStores <- readWorksheetFromFile(ws,sheet=1,region='C1:C6')
+dfProducts <- readWorksheetFromFile(ws,sheet=1,region='D1:D3')
+dfTableRoutesFW <- readWorksheetFromFile(ws,sheet=1,region='F2:I26')
+dfTableRoutesWS <- readWorksheetFromFile(ws,sheet=1,region='K2:N20')
+dfSupply <- readWorksheetFromFile(ws,sheet=1,region='P2:R10')
+dfDemand <- readWorksheetFromFile(ws,sheet=1,region='T2:V12')
+dfCapacityFW <- readWorksheetFromFile(ws,sheet=1,region='A9:A10')
+dfCapacityWS <- readWorksheetFromFile(ws,sheet=1,region='A12:A13')
+dfMaxStorage <- readWorksheetFromFile(ws,sheet=1,region='A15:A16')
+# change to your directory
+setwd('~//Users/jbaggett/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04')
+filename <- 'transpStore.dat'
+cat('//--------------------------------------------------\n',file=filename)
+con <- file(filename) # get connection to file to close later
+cat('// transportation file produced by reading \n',file=filename,append=T)
+cat('// excel file into R using XLConnect \n',file=filename,append=T)
+cat('// and using R commands to output textfile \n',file=filename,append=T)
+cat('//--------------------------------------------------\n\n',file=filename,append=T)
+writeSet <- function( varName, df, filename ){
+cat( varName, file = filename, append = T )
+cat( ' = { ', file = filename, append = T )
+numRows <- dim(df)[1]
+for (j in 1:numRows){
+cat( df[j,1], file = filename, append = T )
+cat( ' ', file = filename, append = T )
+}
+cat('};\n', file = filename, append = T )
+}
+writeNumber <- function( varName, x, filename ){
+cat( varName, file = filename, append = T)
+cat( ' = ', file = filename, append = T)
+cat( x, file = filename, append = T)
+cat( ';', file = filename, append = T)
+}
+writeSet( 'Factories', dfFactories, filename)
+writeSet( 'Warehouses', dfWarehouses, filename)
+writeSet( 'Stores', dfStores, filename)
+writeSet( 'Products', dfProducts, filename)
+writeNumber( 'CapacityFW', dfCapacityFW[1,1],filename)
+writeNumber( 'CapacityWS', dfCapacityWS[1,1],filename)
+writeNumber( 'MaxStorage', dfMaxStorage[1,1],filename)
+writeTuplesTable <- function( varName, df, filename){
+cat( varName, file = filename, append = T)
+cat( ' = {\n', file = filename, append = T)
+numRows <- dim( df )[1]
+for (j in 1:numRows){
+cat(' < ', file = filename, append = T)
+write.table( df[j,], file = filename, append = T, quote = F, sep = ', ',
+row.names = F, col.names = F, eol = ' >;\n' )
+}
+cat('};\n\n', file = filename, append = T)
+}
+writeTuplesTable( 'TableRoutesFW', dfTableRoutesFW, filename)
+require('XLConnect')  # install if necessary
+# also install XLConnectJars if not installed as dependency
+ws <- 'transpStoreSheet.xlsx'
+# read dataframes from Excel spreadsheet
+# you'll have to change the sheets and regions
+dfFactories <- readWorksheetFromFile(ws,sheet=1,region='A1:A5')
+dfWarehouses <- readWorksheetFromFile(ws,sheet=1,region='B1:B4')
+dfStores <- readWorksheetFromFile(ws,sheet=1,region='C1:C6')
+dfProducts <- readWorksheetFromFile(ws,sheet=1,region='D1:D3')
+dfTableRoutesFW <- readWorksheetFromFile(ws,sheet=1,region='F2:I26')
+dfTableRoutesWS <- readWorksheetFromFile(ws,sheet=1,region='K2:N20')
+dfSupply <- readWorksheetFromFile(ws,sheet=1,region='P2:R10')
+dfDemand <- readWorksheetFromFile(ws,sheet=1,region='T2:V12')
+dfCapacityFW <- readWorksheetFromFile(ws,sheet=1,region='A9:A10')
+dfCapacityWS <- readWorksheetFromFile(ws,sheet=1,region='A12:A13')
+dfMaxStorage <- readWorksheetFromFile(ws,sheet=1,region='A15:A16')
+# change to your directory
+setwd('~//Users/jbaggett/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04')
+filename <- 'transpStore.dat'
+cat('//--------------------------------------------------\n',file=filename)
+con <- file(filename) # get connection to file to close later
+cat('// transportation file produced by reading \n',file=filename,append=T)
+cat('// excel file into R using XLConnect \n',file=filename,append=T)
+cat('// and using R commands to output textfile \n',file=filename,append=T)
+cat('//--------------------------------------------------\n\n',file=filename,append=T)
+writeSet <- function( varName, df, filename ){
+cat( varName, file = filename, append = T )
+cat( ' = { ', file = filename, append = T )
+numRows <- dim(df)[1]
+for (j in 1:numRows){
+cat( df[j,1], file = filename, append = T )
+cat( ' ', file = filename, append = T )
+}
+cat('};\n', file = filename, append = T )
+}
+writeNumber <- function( varName, x, filename ){
+cat( varName, file = filename, append = T)
+cat( ' = ', file = filename, append = T)
+cat( x, file = filename, append = T)
+cat( ';\n', file = filename, append = T)
+}
+writeTuplesTable <- function( varName, df, filename){
+cat( varName, file = filename, append = T)
+cat( ' = {\n', file = filename, append = T)
+numRows <- dim( df )[1]
+for (j in 1:numRows){
+cat(' < ', file = filename, append = T)
+write.table( df[j,], file = filename, append = T, quote = F, sep = ', ',
+row.names = F, col.names = F, eol = ' >\n' )
+}
+cat('};\n\n', file = filename, append = T)
+}
+writeTuplesArray <- function( varName, df, filename){
+cat( varName, file = filename, append = T)
+cat( ' = #[\n', file = filename, append = T)
+numRows <- dim( df )[1]
+numCols <- dim( df )[2]
+tupleLen <- numCols - 1
+for (j in 1:numRows){
+cat(' < ', file = filename, append = T)
+write.table( df[j,1:tupleLen], file = filename, append = T, quote = F, sep = ', ',
+row.names = F, col.names = F, eol = ' >: ' )
+cat( df[j,numCols] , file = filename, append = T )
+}
+cat(']#;\n\n', file = filename, append = T)
+}
+writeSet( 'Factories', dfFactories, filename)
+writeSet( 'Warehouses', dfWarehouses, filename)
+writeSet( 'Stores', dfStores, filename)
+writeSet( 'Products', dfProducts, filename)
+writeNumber( 'CapacityFW', dfCapacityFW[1,1],filename)
+writeNumber( 'CapacityWS', dfCapacityWS[1,1],filename)
+writeNumber( 'MaxStorage', dfMaxStorage[1,1],filename)
+writeTuplesTable( 'TableRoutesFW', dfTableRoutesFW, filename)
+writeTuplesTable( 'TableRoutesWS', dfTableRoutesWS, filename)
+writeTuplesArray( 'Supply', dfSupply, filename)
+require('XLConnect')  # install if necessary
+# also install XLConnectJars if not installed as dependency
+ws <- 'transpStoreSheet.xlsx'
+# read dataframes from Excel spreadsheet
+# you'll have to change the sheets and regions
+dfFactories <- readWorksheetFromFile(ws,sheet=1,region='A1:A5')
+dfWarehouses <- readWorksheetFromFile(ws,sheet=1,region='B1:B4')
+dfStores <- readWorksheetFromFile(ws,sheet=1,region='C1:C6')
+dfProducts <- readWorksheetFromFile(ws,sheet=1,region='D1:D3')
+dfTableRoutesFW <- readWorksheetFromFile(ws,sheet=1,region='F2:I26')
+dfTableRoutesWS <- readWorksheetFromFile(ws,sheet=1,region='K2:N20')
+dfSupply <- readWorksheetFromFile(ws,sheet=1,region='P2:R10')
+dfDemand <- readWorksheetFromFile(ws,sheet=1,region='T2:V12')
+dfCapacityFW <- readWorksheetFromFile(ws,sheet=1,region='A9:A10')
+dfCapacityWS <- readWorksheetFromFile(ws,sheet=1,region='A12:A13')
+dfMaxStorage <- readWorksheetFromFile(ws,sheet=1,region='A15:A16')
+# change to your directory
+setwd('~//Users/jbaggett/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04')
+filename <- 'transpStore.dat'
+cat('//--------------------------------------------------\n',file=filename)
+con <- file(filename) # get connection to file to close later
+cat('// transportation file produced by reading \n',file=filename,append=T)
+cat('// excel file into R using XLConnect \n',file=filename,append=T)
+cat('// and using R commands to output textfile \n',file=filename,append=T)
+cat('//--------------------------------------------------\n\n',file=filename,append=T)
+writeSet <- function( varName, df, filename ){
+cat( varName, file = filename, append = T )
+cat( ' = { ', file = filename, append = T )
+numRows <- dim(df)[1]
+for (j in 1:numRows){
+cat( df[j,1], file = filename, append = T )
+cat( ' ', file = filename, append = T )
+}
+cat('};\n', file = filename, append = T )
+}
+writeNumber <- function( varName, x, filename ){
+cat( varName, file = filename, append = T)
+cat( ' = ', file = filename, append = T)
+cat( x, file = filename, append = T)
+cat( ';\n', file = filename, append = T)
+}
+writeTuplesTable <- function( varName, df, filename){
+cat( varName, file = filename, append = T)
+cat( ' = {\n', file = filename, append = T)
+numRows <- dim( df )[1]
+for (j in 1:numRows){
+cat(' < ', file = filename, append = T)
+write.table( df[j,], file = filename, append = T, quote = F, sep = ', ',
+row.names = F, col.names = F, eol = ' >\n' )
+}
+cat('};\n\n', file = filename, append = T)
+}
+writeTuplesArray <- function( varName, df, filename){
+cat( varName, file = filename, append = T)
+cat( ' = #[\n', file = filename, append = T)
+numRows <- dim( df )[1]
+numCols <- dim( df )[2]
+tupleLen <- numCols - 1
+for (j in 1:numRows){
+cat(' < ', file = filename, append = T)
+write.table( df[j,1:tupleLen], file = filename, append = T, quote = F, sep = ', ',
+row.names = F, col.names = F, eol = ' >: ' )
+cat( df[j,numCols] , file = filename, append = T )
+cat( '\n', file = filename, append = T )
+}
+cat(']#;\n\n', file = filename, append = T)
+}
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpStoreWrite.R')
+source('~/.active-rstudio-document')
+source('~/.active-rstudio-document')
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpWrite.R')
+writeSet('Cities',dfCities,filename)
+writeSet('Products',dfProducts,filename)
+writeNumber('Capacity',data.frame(x=625),filename)
+df <- data.frame(x = 3)
+df
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpWrite.R')
+writeSet('Cities',dfCities,filename)
+writeSet('Products',dfProducts,filename)
+writeNumber('Capacity',dfCapacity,filename)
+writeTuplesTable('TableRoutes',dfTableRoutes,filename)
+writeTuplesArray('Supply',dfSupply,filename)
+writeTuplesArray('Demand',dfDemand,filename)
+close(con) # close connection to file
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpWrite.R')
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpWrite.R')
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpStoreBigWrite.R')
+setwd("~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download")
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpStoreBigWrite.R')
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpStoreBigWrite.R')
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpStoreBigWrite.R')
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpStoreBigWrite.R')
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpStoreBigWrite.R')
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpStoreBigWrite.R')
+setwd("~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download")
+source('~/Google Drive/Gdrive_snap_May_15/MS Data Science/DS 775/Class Materials/Weekly Content/Week_04/Download/transpWrite.R')
