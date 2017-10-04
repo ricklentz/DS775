@@ -1,0 +1,53 @@
+/*********************************************
+ * OPL 12.6.3.0 Data
+ * Author: jbaggett
+ * Creation Date: Sep 16, 2016 at 8:26:54 PM
+ *********************************************/
+
+ Workers = {KC DH HB SC KS NK};
+ Days = {Monday Tuesday Wednesday Thursday Friday};
+ 
+ wageRates = #[
+ 	KC:25 
+ 	DH:26 
+ 	HB:24 
+ 	SC:23 
+ 	KS:28 
+ 	NK:30
+]#;
+ minHours  = #[
+ 	KC:8 
+ 	DH:8 
+ 	HB:8 
+ 	SC:8 
+ 	KS:7 
+ 	NK:7
+]#;
+ hoursOpen = #[
+    Monday:14 
+    Tuesday:14 
+    Wednesday:14 
+    Thursday:14 
+    Friday:14
+]#;
+ 
+ WorkAssigns = {
+<KC,Monday,6>
+<KC,Wednesday,6>
+<KC,Friday,6>
+<DH,Tuesday,6>
+<DH,Thursday,6>
+<HB,Monday,4>
+<HB,Tuesday,8>
+<HB,Wednesday,4>
+<HB,Friday,4>
+<SC,Monday,5>
+<SC,Tuesday,5>
+<SC,Wednesday,5>
+<SC,Friday,5>
+<KS,Monday,3>
+<KS,Wednesday,3>
+<KS,Thursday,8>
+<NK,Thursday,6>
+<NK,Friday,2>
+};
