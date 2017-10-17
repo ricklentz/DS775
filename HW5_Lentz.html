@@ -29258,7 +29258,7 @@ b3 16.837<br>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">pulp</span> <span class="kn">import</span> <span class="o">*</span>
@@ -29310,24 +29310,19 @@ b3 16.837<br>
 
 <span class="c1"># z_score = (obs - mean) / std</span>
 <span class="k">print</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="n">x3</span><span class="p">)</span>
-<span class="n">z_score_c1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">90</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
-<span class="k">print</span><span class="p">(</span> <span class="n">z_score_c1</span> <span class="p">)</span>
-<span class="k">print</span><span class="p">(</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">z_score_c1</span><span class="p">))</span>
-
+<span class="n">p_c1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="n">x3</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span> <span class="n">p_c1</span> <span class="p">)</span>
 
 <span class="k">print</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x3</span><span class="p">)</span>
-<span class="n">z_score_c2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">150</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
-<span class="k">print</span><span class="p">(</span> <span class="n">z_score_c2</span> <span class="p">)</span>
-<span class="k">print</span><span class="p">(</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">z_score_c2</span><span class="p">))</span>
 
+<span class="n">p_c2</span> <span class="o">=</span>  <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x3</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span> <span class="n">p_c2</span> <span class="p">)</span>
 
 <span class="k">print</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">x3</span><span class="p">)</span>
-<span class="n">z_score_c3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">180</span><span class="p">)</span> <span class="o">/</span> <span class="mi">9</span>
-<span class="k">print</span><span class="p">(</span> <span class="n">z_score_c3</span> <span class="p">)</span>
-<span class="k">print</span><span class="p">(</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">z_score_c3</span><span class="p">))</span>
+<span class="n">p_c3</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">x3</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span> <span class="n">p_c3</span> <span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Overall prob, part a: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">z_score_c1</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">z_score_c2</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">z_score_c3</span><span class="p">)))</span> <span class="p">)</span>
-
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;A: Overall p = p(c1)*p(c2)*p(c3) : &quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">p_c1</span><span class="o">*</span><span class="n">p_c2</span><span class="o">*</span><span class="n">p_c3</span><span class="p">))</span>
 
 
 <span class="c1"># part c</span>
@@ -29336,26 +29331,20 @@ b3 16.837<br>
 <span class="n">x3</span> <span class="o">=</span> <span class="mf">19.109</span>
 
 <span class="k">print</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="n">x3</span><span class="p">)</span>
-<span class="n">z_score_c1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">90</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
-<span class="k">print</span><span class="p">(</span> <span class="n">z_score_c1</span> <span class="p">)</span>
-<span class="n">p_c1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">z_score_c1</span><span class="p">)</span>
+<span class="n">p_c1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="n">x3</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span> <span class="n">p_c1</span> <span class="p">)</span>
 
 
 <span class="k">print</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x3</span><span class="p">)</span>
-<span class="n">z_score_c2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">150</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
-<span class="k">print</span><span class="p">(</span> <span class="n">z_score_c2</span> <span class="p">)</span>
-<span class="n">p_c2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">z_score_c2</span><span class="p">)</span>
+<span class="n">p_c2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x3</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span> <span class="n">p_c2</span> <span class="p">)</span>
 
 
 <span class="k">print</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">x3</span><span class="p">)</span>
-<span class="n">z_score_c3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">180</span><span class="p">)</span> <span class="o">/</span> <span class="mi">9</span>
-<span class="k">print</span><span class="p">(</span> <span class="n">z_score_c3</span> <span class="p">)</span>
-<span class="n">p_c3</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">z_score_c3</span><span class="p">)</span>
+<span class="n">p_c3</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">x3</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span> <span class="n">p_c3</span> <span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Overall p = p(c1)*p(c2)*p(c3) : &quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">p_c1</span><span class="o">*</span><span class="n">p_c2</span><span class="o">*</span><span class="n">p_c3</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;C: Overall p = p(c1)*p(c2)*p(c3) : &quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">p_c1</span><span class="o">*</span><span class="n">p_c2</span><span class="o">*</span><span class="n">p_c3</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -29382,25 +29371,19 @@ b3 168.46603591
 (&#39;x3&#39;, &#39;=&#39;, 19.109)
 (&#39;objective=&#39;, 1277.2066)
 84
--2
 0.977249868052
 140
--2
-0.977249868052
+0.952209647727
 168
--2
-0.977249868052
-Overall prob, part a: 0.846614788867
+0.908788780274
+A: Overall p = p(c1)*p(c2)*p(c3) : 0.845670448283
 84.11999
--1.96000333333
 0.975002299654
 140.13066
--1.64489
 0.950003751245
 168.46583
--1.28157444444
 0.90000401515
-Overall p = p(c1)*p(c2)*p(c3) : 0.833633976986
+C: Overall p = p(c1)*p(c2)*p(c3) : 0.833633976986
 </pre>
 </div>
 </div>
@@ -29415,7 +29398,7 @@ Overall p = p(c1)*p(c2)*p(c3) : 0.833633976986
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>a)
 $$ p(c1) = {0.977249868052} $$</p>
-$$ p(c2) = {0.977249868052} $$$$ p(c3) = {0.977249868052} $$<p>Overall prob, part a: $$ p(c1)*p(c2)*p(c3) = 0.846614788867 $$
+$$ p(c2) = {0.952209647727} $$$$ p(c3) = {0.908788780274} $$<p>Overall prob, part a: $$ p(c1)*p(c2)*p(c3) = 0.845670448283 $$
 b)</p>
 <p>RHS: 
 b1 84.1201080464<br>
@@ -29429,7 +29412,7 @@ b3 168.46603591</p>
 ('objective=', 1277.2066)</p>
 <p>c)<br>
 $$p(c1) = {0.975002299654}$$</p>
-$$p(c2) = {0.950003751245}$$$$p(c3) = {0.824506813735}$$<p>Overall $$ p = p(c1)*p(c2)*p(c3) = 0.833633976986 $$</p>
+$$p(c2) = {0.950003751245}$$$$p(c3) = {0.90000401515}$$<p>Overall $$ p = p(c1)*p(c2)*p(c3) = 0.833633976986 $$</p>
 
 </div>
 </div>
