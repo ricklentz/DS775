@@ -1,0 +1,343 @@
+---
+title: "Week 9 Homework - Solutions"
+author: "Jeff Baggett"
+date: "11/07/2016"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem 1 - Redistricting with a Genetic Algorithm
+
+Solve problem 13.10-6. Install the 'gramEvol' package to get access to a genetic algorithm that uses integer encoding called GeneticAlg.int().  Use that algorithm to solve this problem.  You'll have to read the documentation to figure out how to use the algorithm.
+
+```{r echo=FALSE, eval = TRUE}
+
+# don't modify this block.
+
+# the distAssign and demrepFit functions go along with problem 13.10-6 from the textbook.
+# demrepFit is the function to optimize 
+
+cities = matrix(c(152,81,75,34,62,38,48,74,98,66,83,86,72,28,112,45,93,72,
+                  62,59,83,52,87,87,69,49,62,72,75,82,83,53,98,82,68,98),18,2);
+
+distAssign <- function(x){
+  # x is an input of 18 integers 1..10 that assign city 1..18 to districts 1..10
+  # distAssign is a dataframe with the number of Democrats, Republicans, Total, and Winner
+  # in each of the 10 districts
+  sumdem = numeric(10);
+  sumrep = numeric(10);
+  sumtot = numeric(10);
+  for (i in 1:10){
+    sumdem[i] = sum( cities[x==i,1] );
+    sumrep[i] = sum( cities[x==i,2] );
+    sumtot[i] = sumdem[i] + sumrep[i];
+  }
+  distAssign <- data.frame( Dem = sumdem, Rep = sumrep, Tot = sumtot, Win = sumrep>sumdem );
+}
+
+demrepFit <- function(x){
+  # x is an input of 18 integers 1..10 that assign city 1..18 to districts 1..10
+  # demrepfit is the number of districts where Republicans have a majority
+  # subtract a penalty proportional to amount by which constraints are violated
+  # 
+  df <- distAssign(x);
+  numRepDist = sum(df$Win);
+  sumtot = df$Tot;
+  
+  # total number of voters is between 150 mil and 350 mil in each district
+  # to enforce this constraint we subtract a penalty term equal to the total amount this
+  # constraint is violated
+  demrepFit = numRepDist - ( sum( 150-sumtot[sumtot<150] )  + sum( sumtot[sumtot>350]-350 ) );
+  
+  # if the algorithm you use minimizes the fitness instead of maximizing, then
+  # uncomment the next line, if your routine maximizes then the next line should be 
+  # commented out
+  demrepFit = -demrepFit; 
+}
+
+# Notice the constraints aren't explicitly enforced, but instead a penalty term is included in the 
+# fitness function to encourage the genetic algorithm to seek potential solutions that satisfy 
+# the constraints.
+```
+
+In the block below add your code to use the genetic algorithm.   Either experiment with different random number seeds or use a for loop to conduct the optimization many times to find the best solution you can.  
+
+```{r}
+# Solution
+set.seed(108) # this seed is for a good solution 
+library('gramEvol')
+GA <- GeneticAlg.int(18,1,10,allowrepeat = TRUE,popSize=50,iterations=200,evalFunc=demrepFit) # find minimum
+df <- distAssign(GA$best$genome);
+df
+numRepDist = sum(df$Win);
+numRepDist
+GA$best$genome
+```
+
+Make sure you print out your best solution.  How many districts do Republicans win with your solution?  (I don't think Republicans can win all 10 in this example, but they can get close.)
+
+Solution: This solution shows it is possible for Republicans to win 9 out of 10 districts.  I haven't been able to find a better solution.  Notice that the district numbers are arbitrary so there are many equivalent solutions.
+
+## Problem 2 - TSP with a Genetic Algorithm
+
+Use the ga() function with permutation encoding from the 'GA' package to approximate a solution to this 48 city TSP problem.  Try different random number seeds and report the best result you can find.  Copy the code from saTSP.R to make a graph of the tour.  Your fitness function is tspFitness().
+
+```{r echo = FALSE}
+# this is supposedly the 48 captial cities in the continental United States, 
+# but I think things are a little off and I don't know the units.  
+# The data is available here
+# http://people.sc.fsu.edu/~jburkardt/datasets/tsp/tsp.html
+
+# load the data
+D <- as.matrix(read.table("att48_d.txt"))
+coord <- as.matrix(read.table("att48_xy.txt"))
+# this is supposedly the best possible tour
+tour_best <- as.vector(as.matrix(read.table("att48_s.txt")))
+tour_best <- tour_best[1:48]
+x <- coord[,1];
+y <- coord[,2];
+n <- length(x);
+numcities <- n;
+
+# given a tour, calculate the total distance
+tourLength <- function(tour, distMatrix) {
+  tour <- c(tour, tour[1])
+  route <- embed(tour, 2)[, 2:1]
+  sum(distMatrix[route])
+}
+# inverse of thetotal distance is the fitness (because the GA maximizes)
+tspFitness <- function(tour, ...) 1/tourLength(tour, ...)
+(tspFitness(tour_best,D))
+
+# SOLUTION:
+require(GA)
+set.seed(126) # gives good solution
+GA.fit <- ga(type = "permutation", fitness = tspFitness, distMatrix = D, 
+             min = 1, max = numcities, popSize = 50, maxiter = 2000, 
+             run = 100, pmutation = 0.2, monitor = NULL)
+
+tour <- GA.fit@solution[1, ]
+totDist = tourLength(tour,D);
+str = c("Tour after GA converged with total distance = ",as.character(totDist));
+plot(x, y, type = "n", asp = 1, xlab = "", ylab = "", main = str);
+points(x, y, pch = 16, cex = 1.5, col = "grey")
+abline(h = pretty(range(x), 10), v = pretty(range(y), 10), col = "lightgrey")
+
+tour <- c(tour, tour[1])
+n <- length(tour)
+arrows(x[tour[-n]], y[tour[-n]], 
+       x[tour[-1]], y[tour[-1]], 
+       length = 0.15, angle = 45, 
+       col = "steelblue", lwd = 2)
+
+```
+
+You may have to play with the optimization parameters a bit, the best solution I was able to find had total "distance" of 33,961.  The genetic algorithm does a really nice job with this problem.
+
+## Problem 3 - TSP with Simulated Annealing
+
+Modify the code in saTSP.R and include it below to approximate an optimal tour for the 48 city TSP problem in Problem 2.  Include a graph of the best tour you are able to find.
+
+```{r}
+distmat <- as.matrix(read.table("att48_d.txt"))
+loc <- as.matrix(read.table("att48_xy.txt"))
+
+distance <- function(sq) {  # Target function
+  sq2 <- embed(sq, 2)
+  sum(distmat[cbind(sq2[,2], sq2[,1])])
+}
+
+genseq <- function(sq) {  # Generate new candidate sequence
+  idx <- seq(2, NROW(distmat)-1)
+  changepoints <- sample(idx, size = 2, replace = FALSE)
+  tmp <- sq[changepoints[1]]
+  sq[changepoints[1]] <- sq[changepoints[2]]
+  sq[changepoints[2]] <- tmp
+  sq
+}
+
+sq <- c(1:nrow(distmat), 1)  # Initial sequence: alphabetic
+distance(sq)
+x <- loc[,1]; y <- loc[,2]
+s <- seq_len(nrow(distmat))
+tspinit <- loc[sq,]
+
+set.seed(123) # first one I found that make total dist < 40000
+res <- optim(sq, distance, genseq, method = "SANN",
+             control = list(maxit = 500000, temp = 5000, 
+                            tmax = 10, trace = TRUE,
+                            REPORT = 10000))
+totaldist <- res$value
+totaldist
+
+str = c("Tour after SA converged with total distance = ",as.character(totaldist));
+plot(x, y, type = "n", asp = 1, xlab = "", ylab = "", main = str);
+points(x, y, pch = 16, cex = 1.5, col = "grey")
+abline(h = pretty(range(x), 10), v = pretty(range(y), 10), col = "lightgrey")
+
+tour <- res$par
+n <- length(tour)
+arrows(x[tour[-n]], y[tour[-n]], 
+       x[tour[-1]], y[tour[-1]], 
+       length = 0.15, angle = 45, 
+       col = "steelblue", lwd = 2)
+```
+
+Solution: SA does not work nearly as well as the genetic algorithm on this problem.  GA usually finds a solution with total distance less than 36000, but SA has a hard time getting below 40000.  Looking at the picture of the SA solution, there are clearly moves that should be made, but SA doesn't see them or doesn't make them.  The performance of SA depends critically on the temperature schedule and I was never able to get the optim() version of SA to work well.
+
+Here is a version of SA for the TSP problem where I was able to get more control over the temperature schedule.  It has performance similar to GA now.
+
+```{r}
+distmat <- as.matrix(read.table("att48_d.txt"))
+loc <- as.matrix(read.table("att48_xy.txt"))
+
+calculate_tour_distance = function(tour, distance_matrix) {
+  sum(distance_matrix[embed(c(tour, tour[1]), 2)])
+}
+
+current_temperature = function(iter, s_curve_amplitude, s_curve_center, s_curve_width) {
+  s_curve_amplitude * s_curve(iter, s_curve_center, s_curve_width)
+}
+
+s_curve = function(x, center, width) {
+  1 / (1 + exp((x - center) / width))
+}
+
+run_annealing_process = function(distance_matrix, tour, number_of_iterations,
+                                              s_curve_amplitude, s_curve_center, s_curve_width) {
+  n_cities = nrow(distance_matrix);
+  best_distance = calculate_tour_distance(tour, distance_matrix)
+  tour_distance = best_distance
+    
+  for(iter in 1:number_of_iterations) {
+    temp = current_temperature(iter, s_curve_amplitude, s_curve_center, s_curve_width)
+    
+    candidate_tour = tour
+    swap = sample(n_cities, 2)
+    candidate_tour[swap[1]:swap[2]] = rev(candidate_tour[swap[1]:swap[2]])
+    candidate_dist = calculate_tour_distance(candidate_tour, distance_matrix)
+    
+    if (temp > 0) {
+      ratio = exp((tour_distance - candidate_dist) / temp)
+    } else {
+      ratio = as.numeric(candidate_dist < tour_distance)
+    }
+    
+    if (runif(1) < ratio) {
+      tour = candidate_tour
+      tour_distance = candidate_dist
+      
+      if (tour_distance < best_distance) {
+        best_tour = tour
+        best_distance = tour_distance
+      }
+    }
+  }
+  
+  return(list(tour=tour, tour_distance=tour_distance, best_tour=best_tour, best_distance=best_distance))
+}
+
+s_curve_amplitude = 4000;
+s_curve_center = 0;
+s_curve_width = 3000;
+number_of_iterations = 100000;
+set.seed(111); # 111 produces the same tour as GA did
+tour = sample(nrow(distmat)); # generate initial tour
+
+result <- run_annealing_process(distmat, tour, number_of_iterations,
+                              s_curve_amplitude, s_curve_center, s_curve_width) 
+
+str = c("Tour after SA converged with total distance = ",as.character(result$best_distance));
+plot(x, y, type = "n", asp = 1, xlab = "", ylab = "", main = str);
+points(x, y, pch = 16, cex = 1.5, col = "grey")
+abline(h = pretty(range(x), 10), v = pretty(range(y), 10), col = "lightgrey")
+
+tour <- result$best_tour
+tour <- c(tour,tour[1])
+n <- length(tour)
+arrows(x[tour[-n]], y[tour[-n]], 
+       x[tour[-1]], y[tour[-1]], 
+       length = 0.15, angle = 45, 
+       col = "steelblue", lwd = 2)
+```
+
+## Problem 4 - Comparing Algorithms for a 30 dimensional Rastrigin function
+
+The 30 dimensional Rastrigin function is considered very difficult to optimize and is a test case for many optimization algorithms.  We know that the global minimum value of 0 occurs at the origin.  For this problem you should compare the performance of Naive Multistart, the Genetic Algorithm plus local search, and the Simulated Annealing algorithm GenSA() from the 'GenSA' package. If you can get it to work, then also try the mlsl() function in the 'nloptr' package as it should work considerably better than Naive Multistart.  
+
+This is a somewhat open problem, but at the very least you should try each algorithm multiple times (possibly in for loop) and report on which algorithms are most efficient (fewest function calls) and which are most reliable (able to consistently identify the global minimum). Experiment with the algorithm parameters (population size, number of iterations of local search, etc.) You'll likely have to increase population sizes and the maximum number of iterations to successfully solve the 30 dimensional problem.  Look at the source code in the presentation .Rmd file included in the download packet for guidance in setting up your algorithms.
+
+```{r echo = FALSE}
+Rastrigin <- function(x) {
+            (sum(x^2 - 10 * cos(2 * pi  * x)) + 10 * length(x))
+}
+```
+
+```{r}
+# your code goes in this block
+dimension = 30;
+lower = rep(-5.12,dimension); upper = rep(5.12,dimension); 
+
+## Naive Multistart
+## won't work well unless you increase the number of searches
+bestmin <- 100000; numlocalSearch = 5000; 
+numevals = 0;
+set.seed(126)
+for (j in 1:numlocalSearch){
+  x0 <- as.vector(runif(dimension,min=-5.12,max=5.12));
+  result <- optim(x0,Rastrigin,method="L-BFGS-B",lower=lower,upper=upper);
+  numevals = numevals + result$counts[1]
+  if (result$value<bestmin){ bestmin = result$value; bestx = result$par}
+}
+
+
+bestmin
+# even with 10000 local searches the method doesn't work all that well
+# and required a ton of function evaluations
+numevals
+
+## MLSL - you didn't have to include this
+# we will use the same number of function evaluations is in Naive multistart (94975)
+require(nloptr); 
+set.seed(126)
+x0 <- as.vector(runif(dimension,min=-5.12,max=5.12));
+result <- mlsl(x0,Rastrigin,lower=lower,upper=upper,nl.info=TRUE,
+               control=list(maxeval = 94975))
+
+## finds a minimum value of 24.9, not great better than naive approach
+
+
+## Genetic Algorithm with local search
+# note ga() maximizes so we'll have to redefine Rastrigin with a negative
+Rastrigin2 <- function(x) {
+            -(sum(x^2 - 10 * cos(2 * pi  * x)) + 10 * length(x))
+}
+set.seed(123)
+result = ga(type="real-valued",fitness=Rastrigin2,
+            popSize = 50,
+            min=lower,max=upper,maxiter=1300,optim=TRUE);
+round(result@solution,5)
+result@fitnessValue
+
+# 1300 or so iterations and ga with local search has identified the global min
+# if we estimate 30 or so function evaluations for each local search then
+# this is about 40000 function calls to find the global min. ... better than mlsl
+
+# Simulated Annealing
+
+library(GenSA)
+set.seed(1234) # The user can use any seed.
+out <- GenSA(lower = lower, upper = upper, fn = Rastrigin,
+  control=list(verbose=TRUE))
+out[c("value","par","counts")]
+
+```
+
+Discuss your algorithm comparison here:
+
+We should probably compare the number of function evaluations for each of the methods, but we will just give some observations.  Naive multistart doesn't work that well for this problem.  Using about 100,000 function evaluations we did not get very close to the globabl minimum value.  MLSL works better, but fails to find the global minimum as well.
+
+The GA algorithm with local search found the global min with about 40000 evaluations.  SA found it with about 370000 evaluations, but that number could probably be decreased by experimenting with parameters.
